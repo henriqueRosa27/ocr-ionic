@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      Teste OCR Ionic
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -14,7 +14,18 @@
   </ion-header>
 
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <ion-button full expand="block" size="large" (click)="selectSource()">Select Image</ion-button>
+    <ion-button full expand="block" size="large" (click)="recognizeImage()" [disabled]="!selectedImage">Recognize Image</ion-button>
+ 
+    <img [src]="selectedImage" *ngIf="selectedImage">
+
+    <ion-card *ngIf="imageText">
+      <ion-card-header>
+        Texto estraido
+      </ion-card-header>
+      <ion-card-content>
+        {{ imageText }}
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

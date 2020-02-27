@@ -1,5 +1,7 @@
 {
   "name": "ocrIonic",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
