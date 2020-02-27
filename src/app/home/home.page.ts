@@ -18,6 +18,7 @@ export class HomePage {
   async selectSource() {    
     const actionSheet = await this.actionSheetController.create({
       header: 'Modo captura Foto',
+      cssClass: 'action-sheets-groups-page',
       buttons: [{
         text: 'Galeria',
         icon: 'albums',
@@ -35,7 +36,8 @@ export class HomePage {
       {
         text: 'Cancelar',
         icon: 'close-circle',
-        role: 'cancel'
+        role: 'cancel',
+        cssClass: 'EditionIcon'
       }]
     });
     await actionSheet.present();
