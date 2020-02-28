@@ -10,7 +10,7 @@ import { Camera, PictureSourceType } from '@ionic-native/camera/ngx';
 })
 export class HomePage {
 
-  selectedImage: string;
+  selectedImage = "";
   imageText: string;
 
   constructor( public actionSheetController: ActionSheetController, private camera: Camera) {}
@@ -48,11 +48,14 @@ export class HomePage {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: sourceType,
-      allowEdit: true,
       saveToPhotoAlbum: false,
       correctOrientation: true
     }).then((imageData) => {
       this.selectedImage = `data:image/jpeg;base64,${imageData}`;
     });
+  }
+
+  recognizeImage(){
+    this.imageText = "kadbfipudsafbasdipuf";
   }
 }
