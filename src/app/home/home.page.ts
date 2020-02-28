@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActionSheetController } from '@ionic/angular';
 import { Camera, PictureSourceType } from '@ionic-native/camera/ngx';
+import { OCR, OCRSourceType, OCRResult } from '@ionic-native/ocr/ngx';
 
 
 @Component({
@@ -12,8 +13,9 @@ export class HomePage {
 
   selectedImage = "";
   imageText: string;
+  sourceImage: string;
 
-  constructor( public actionSheetController: ActionSheetController, private camera: Camera) {}
+  constructor( public actionSheetController: ActionSheetController, private camera: Camera, private ocr: OCR) {}
 
   async selectSource() {    
     const actionSheet = await this.actionSheetController.create({
@@ -55,7 +57,10 @@ export class HomePage {
     });
   }
 
-  recognizeImage(){
-    this.imageText = "kadbfipudsafbasdipuf";
+  recognizeImage() {
+    console.log(this.selectedImage)
+    this.ocr.recText(OCRSourceType.NORMFILEURL, this.selectedImage)
+    .then((res: OCRResult) => console.log(JSON.stringify(res)))
+    .catch((error: any) => console.error(error));
   }
 }
