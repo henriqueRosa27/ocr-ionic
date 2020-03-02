@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { Camera } from '@ionic-native/camera/ngx';
 import { OCR } from '@ionic-native/ocr/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
 
 import { HomePage } from './home.page';
 
@@ -20,7 +21,7 @@ import { HomePage } from './home.page';
       }
     ])
   ],
-  providers: [Camera, OCR],
+  providers: [Camera, OCR, WebView],
   declarations: [HomePage]
 })
 export class HomePageModule {}
