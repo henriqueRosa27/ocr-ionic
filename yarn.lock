@@ -970,6 +970,27 @@
   dependencies:
     "@types/cordova" latest
 
+"@ionic-native/file-path@^5.25.0":
+  version "5.25.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/file-path/-/file-path-5.25.0.tgz#08cfbb5107d1e69a6de999a6c5d0c2cc4cbc45a8"
+  integrity sha512-O+8lxnU1ZHuGjzddhUXvjb8IYe1WBUYnvK6BDqePt7tRWu/NspfYjXv0oBAuQGL7qboaQVoNq3m8cA2Ijcn4JA==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/file-transfer@^5.25.0":
+  version "5.25.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/file-transfer/-/file-transfer-5.25.0.tgz#8bf33732c4ac6db1d823a1f307eaf0c9a7cfb7a3"
+  integrity sha512-8hpzGXOKpFLxG9ewLiyjuHg7nJqi0acCOutOWsW9LT25r41+/kqO137CTKVwgLY/KY+pAjgpYhbwvLwdg5izgg==
+  dependencies:
+    "@types/cordova" latest
+
+"@ionic-native/file@^5.25.0":
+  version "5.25.0"
+  resolved "https://registry.yarnpkg.com/@ionic-native/file/-/file-5.25.0.tgz#21b26f8f55a7a7b9040ab1095f52dd3eef6a9158"
+  integrity sha512-zaL7YNuKRmaFrg6qZWcjlNkygOZ+vln/u07BYCS23+FnUiX9UrtKfM0MfxCzEE8dpx0f+sCoMRTEfOAiaNZHiA==
+  dependencies:
+    "@types/cordova" latest
+
 "@ionic-native/ionic-webview@^5.22.0":
   version "5.22.0"
   resolved "https://registry.yarnpkg.com/@ionic-native/ionic-webview/-/ionic-webview-5.22.0.tgz#c4a98ad8f7491e68ff4aff091c9ead830abcd366"
@@ -2560,6 +2581,21 @@ cordova-plugin-device@^2.0.2:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/cordova-plugin-device/-/cordova-plugin-device-2.0.3.tgz#c2b41b7efd0455dd097f89356d85bfdd5dadeb0f"
   integrity sha512-Jb3V72btxf3XHpkPQsGdyc8N6tVBYn1vsxSFj43fIz9vonJDUThYPCJJHqk6PX6N4dJw6I4FjxkpfCR4LDYMlw==
+
+cordova-plugin-file-transfer@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-file-transfer/-/cordova-plugin-file-transfer-1.7.1.tgz#a75d8be2ebc3bb9b23c5b1bbd199214ec267586b"
+  integrity sha1-p12L4uvDu5sjxbG70ZkhTsJnWGs=
+
+cordova-plugin-file@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-file/-/cordova-plugin-file-6.0.2.tgz#f3911479f8357e9aacb5576674f8d95b31a1fb20"
+  integrity sha512-m7cughw327CjONN/qjzsTpSesLaeybksQh420/gRuSXJX5Zt9NfgsSbqqKDon6jnQ9Mm7h7imgyO2uJ34XMBtA==
+
+cordova-plugin-filepath@^1.5.8:
+  version "1.5.8"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-filepath/-/cordova-plugin-filepath-1.5.8.tgz#9adc7b0ae281683bcea755bb0ac86688e96f5e3a"
+  integrity sha512-DhMVM9lkndPWQ+lI8Um0Yq648MBKWpNe/3PW057g4wuFrnAz/9nR8Qs4bjYt/yxwxMX/VMZC59qXOcksd2JYuw==
 
 cordova-plugin-ionic-keyboard@^2.2.0:
   version "2.2.0"

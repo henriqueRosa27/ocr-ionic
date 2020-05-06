@@ -3,14 +3,13 @@ import { ActionSheetController } from "@ionic/angular";
 import { Camera, PictureSourceType } from "@ionic-native/camera/ngx";
 import { OCR, OCRSourceType, OCRResult } from "@ionic-native/ocr/ngx";
 import { WebView } from "@ionic-native/ionic-webview/ngx";
-import { MenuController } from "@ionic/angular";
 
 @Component({
-  selector: "app-home",
-  templateUrl: "home.page.html",
-  styleUrls: ["home.page.scss"],
+  selector: "app-byionic",
+  templateUrl: "./byionic.page.html",
+  styleUrls: ["./byionic.page.scss"],
 })
-export class HomePage {
+export class ByionicPage {
   selectedImage = "";
   imageText: string;
   sourceImage: string;
@@ -20,23 +19,8 @@ export class HomePage {
     public actionSheetController: ActionSheetController,
     private camera: Camera,
     private ocr: OCR,
-    private webview: WebView,
-    private menu: MenuController
+    private webview: WebView
   ) {}
-
-  openFirst() {
-    this.menu.enable(true, "first");
-    this.menu.open("first");
-  }
-
-  openEnd() {
-    this.menu.open("end");
-  }
-
-  openCustom() {
-    this.menu.enable(true, "custom");
-    this.menu.open("custom");
-  }
 
   async selectSource() {
     const actionSheet = await this.actionSheetController.create({

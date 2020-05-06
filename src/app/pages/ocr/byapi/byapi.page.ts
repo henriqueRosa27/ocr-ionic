@@ -3,40 +3,33 @@ import { ActionSheetController } from "@ionic/angular";
 import { Camera, PictureSourceType } from "@ionic-native/camera/ngx";
 import { OCR, OCRSourceType, OCRResult } from "@ionic-native/ocr/ngx";
 import { WebView } from "@ionic-native/ionic-webview/ngx";
-import { MenuController } from "@ionic/angular";
+import { HttpClient } from "@angular/common/http";
+
+import { File, FileEntry } from "@ionic-native/file/ngx";
+import { FilePath } from "@ionic-native/file-path/ngx";
+import { of } from "rxjs";
+import { catchError, finalize } from "rxjs/operators";
 
 @Component({
-  selector: "app-home",
-  templateUrl: "home.page.html",
-  styleUrls: ["home.page.scss"],
+  selector: "app-byapi",
+  templateUrl: "./byapi.page.html",
+  styleUrls: ["./byapi.page.scss"],
 })
-export class HomePage {
+export class ByapiPage {
   selectedImage = "";
   imageText: string;
   sourceImage: string;
   image: string;
+  test: string;
 
   constructor(
     public actionSheetController: ActionSheetController,
     private camera: Camera,
-    private ocr: OCR,
     private webview: WebView,
-    private menu: MenuController
+    private file: File,
+    private http: HttpClient,
+    private filePath: FilePath
   ) {}
-
-  openFirst() {
-    this.menu.enable(true, "first");
-    this.menu.open("first");
-  }
-
-  openEnd() {
-    this.menu.open("end");
-  }
-
-  openCustom() {
-    this.menu.enable(true, "custom");
-    this.menu.open("custom");
-  }
 
   async selectSource() {
     const actionSheet = await this.actionSheetController.create({
@@ -72,7 +65,7 @@ export class HomePage {
     this.camera
       .getPicture({
         quality: 100,
-        destinationType: this.camera.DestinationType.FILE_URI,
+        destinationType: this.camera.DestinationType.NATIVE_URI,
         encodingType: this.camera.EncodingType.JPEG,
         sourceType: sourceType,
         saveToPhotoAlbum: true,
@@ -81,19 +74,51 @@ export class HomePage {
       .then((imageData) => {
         //this.selectedImage = `data:image/jpeg;base64,${imageData}`;
         this.selectedImage = imageData;
+        this.filePath.resolveNativePath(imageData).then((t) => {
+          console.log(t);
+          this.test = t;
+        });
 
         this.sourceImage = this.webview.convertFileSrc(imageData);
       });
   }
 
   recognizeImage() {
+    //this.imageText
     console.log(this.selectedImage);
-    this.ocr
-      .recText(OCRSourceType.NORMFILEURL, this.selectedImage)
-      .then(
-        (res: OCRResult) =>
-          (this.imageText = JSON.stringify(res.lines.linetext))
-      )
-      .catch((error: any) => console.error(error));
+    this.teste();
+  }
+
+  teste() {
+    this.file
+      .resolveLocalFilesystemUrl(this.test)
+      .then((entry) => {
+        (<FileEntry>entry).file((file) => this.readFile(file));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  readFile(file: any) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const formData = new FormData();
+      const imgBlob = new Blob([reader.result], {
+        type: file.type,
+      });
+      formData.append("file", imgBlob, file.name);
+      this.uploadImageData(formData);
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
+  async uploadImageData(formData: FormData) {
+    this.http
+      .post("http://localhost:8888/upload.php", formData)
+      .pipe(finalize(() => {}))
+      .subscribe((res) => {
+        console.log(res);
+      });
   }
 }

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Ocr pela API
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container" [ngClass]="{'cleanContainer': !selectedImage.length}">
+    <ion-button full expand="block" size="large" (click)="selectSource()"
+      >Select Image</ion-button
+    >
+    <ion-button
+      full
+      expand="block"
+      size="large"
+      (click)="recognizeImage()"
+      [disabled]="!selectedImage"
+      >Recognize Image</ion-button
+    >
+
+    <img [src]="sourceImage" *ngIf="selectedImage" />
+
+    <ion-card *ngIf="imageText">
+      <ion-card-header>
+        Texto extraido
+      </ion-card-header>
+      <ion-card-content>
+        {{ imageText }}
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
