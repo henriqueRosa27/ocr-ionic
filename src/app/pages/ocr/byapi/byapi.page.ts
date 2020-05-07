@@ -9,6 +9,11 @@ import { File, FileEntry } from "@ionic-native/file/ngx";
 import { FilePath } from "@ionic-native/file-path/ngx";
 import { of } from "rxjs";
 import { catchError, finalize } from "rxjs/operators";
+import {
+  LoadingController,
+  ToastController,
+  AlertController,
+} from "@ionic/angular";
 
 @Component({
   selector: "app-byapi",
@@ -28,7 +33,10 @@ export class ByapiPage {
     private webview: WebView,
     private file: File,
     private http: HttpClient,
-    private filePath: FilePath
+    private filePath: FilePath,
+    private loadingController: LoadingController,
+    private toastController: ToastController,
+    public alertController: AlertController
   ) {}
 
   async selectSource() {
@@ -96,8 +104,17 @@ export class ByapiPage {
         (<FileEntry>entry).file((file) => this.readFile(file));
       })
       .catch((err) => {
-        console.log(err);
+        this.presentToast("Erro ao carregar imagem");
       });
+  }
+  async presentToast(text) {
+    const toast = await this.toastController.create({
+      message: text,
+      position: "bottom",
+      duration: 3000,
+      color: "danger",
+    });
+    toast.present();
   }
 
   readFile(file: any) {
@@ -107,18 +124,38 @@ export class ByapiPage {
       const imgBlob = new Blob([reader.result], {
         type: file.type,
       });
-      formData.append("file", imgBlob, file.name);
+      formData.append("image", imgBlob, file.name);
       this.uploadImageData(formData);
     };
     reader.readAsArrayBuffer(file);
   }
 
   async uploadImageData(formData: FormData) {
-    this.http
-      .post("http://localhost:8888/upload.php", formData)
-      .pipe(finalize(() => {}))
-      .subscribe((res) => {
-        console.log(res);
+    const loading = await this.loadingController.create({
+      message: "Extraindo texto...",
+    });
+    await loading.present();
+    await this.http
+      .post("http://192.168.1.101:3333/ocr", formData)
+      .toPromise()
+      .then((res: any) => {
+        loading.dismiss();
+        console.log(res.text);
+        this.presentAlert(res.text);
+      })
+      .catch(() => {
+        loading.dismiss();
+        this.presentToast("Erro ao fazer a requisição");
       });
+  }
+
+  async presentAlert(text) {
+    const alert = await this.alertController.create({
+      header: "Texto extraído",
+      message: text,
+      buttons: ["OK"],
+    });
+
+    await alert.present();
   }
 }

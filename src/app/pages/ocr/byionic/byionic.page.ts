@@ -3,6 +3,11 @@ import { ActionSheetController } from "@ionic/angular";
 import { Camera, PictureSourceType } from "@ionic-native/camera/ngx";
 import { OCR, OCRSourceType, OCRResult } from "@ionic-native/ocr/ngx";
 import { WebView } from "@ionic-native/ionic-webview/ngx";
+import {
+  LoadingController,
+  ToastController,
+  AlertController,
+} from "@ionic/angular";
 
 @Component({
   selector: "app-byionic",
@@ -19,7 +24,10 @@ export class ByionicPage {
     public actionSheetController: ActionSheetController,
     private camera: Camera,
     private ocr: OCR,
-    private webview: WebView
+    private webview: WebView,
+    private loadingController: LoadingController,
+    private toastController: ToastController,
+    public alertController: AlertController
   ) {}
 
   async selectSource() {
@@ -70,14 +78,41 @@ export class ByionicPage {
       });
   }
 
-  recognizeImage() {
+  async recognizeImage() {
+    const loading = await this.loadingController.create({
+      message: "Extraindo texto...",
+    });
+    await loading.present();
     console.log(this.selectedImage);
     this.ocr
       .recText(OCRSourceType.NORMFILEURL, this.selectedImage)
-      .then(
-        (res: OCRResult) =>
-          (this.imageText = JSON.stringify(res.lines.linetext))
-      )
-      .catch((error: any) => console.error(error));
+      .then((res: OCRResult) => {
+        loading.dismiss();
+        this.presentAlert(JSON.stringify(res.lines.linetext));
+      })
+      .catch((error: any) => {
+        loading.dismiss();
+        this.presentToast("Erro ao fazer a requisição");
+      });
+  }
+
+  async presentToast(text) {
+    const toast = await this.toastController.create({
+      message: text,
+      position: "bottom",
+      duration: 3000,
+      color: "danger",
+    });
+    toast.present();
+  }
+
+  async presentAlert(text) {
+    const alert = await this.alertController.create({
+      header: "Texto extraído",
+      message: text,
+      buttons: ["OK"],
+    });
+
+    await alert.present();
   }
 }
