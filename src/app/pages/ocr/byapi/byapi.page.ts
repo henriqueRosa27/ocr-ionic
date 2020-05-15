@@ -136,7 +136,7 @@ export class ByapiPage {
     });
     await loading.present();
     await this.http
-      .post("http://192.168.1.101:3333/ocr", formData)
+      .post("https://a-definir.herokuapp.com/ocr", formData)
       .toPromise()
       .then((res: any) => {
         loading.dismiss();
